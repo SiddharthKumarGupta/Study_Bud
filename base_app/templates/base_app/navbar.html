@@ -133,35 +133,86 @@
 
 /* MOBILE */
 @media (max-width: 768px) {
+
     .search-box {
         display: none;
     }
 
     .hamburger {
         display: block;
+        font-size: 24px;
     }
 
     .right {
-        display: none;
+        display: flex;
         flex-direction: column;
-        background: #1f2937;
-        position: absolute;
-        top: 60px;
-        right: 10px;
-        padding: 15px;
-        border-radius: 10px;
+        position: fixed;
+        top: 0;
+        right: -280px;   /* hidden */
+        width: 250px;
+        height: 100vh;
+        background: #111827;
+        padding-top: 80px;
+        transition: 0.3s ease;
+        z-index: 1000;
     }
 
-    .right a {
-        display: block;
-        margin: 10px 0;
+    .right.active {
+        right: 0;
+    }
+
+    .right a,
+    .user,
+    .bell,
+    .dark-btn {
+        margin: 12px 20px;
     }
 }
 
 /* DARK MODE */
-.dark-mode {
-    background: #0f172a !important;
+.dark-btn {
+    background: none;
+    border: none;
     color: white;
+    cursor: pointer;
+    font-size: 22px;
+    padding: 10px;
+    margin: 0;
+    text-align: left;
+}
+.right .dark-btn{
+    margin: 12px 20px;
+}
+body.dark-mode {
+    background: #0f172a;
+    color: white;
+}
+
+body.dark-mode .navbar {
+    background: #020617;
+}
+
+body.dark-mode .hero {
+    background: linear-gradient(135deg, #1e1b4b, #581c87);
+}
+
+body.dark-mode .room-card {
+    background: rgba(15, 23, 42, 0.8);
+    color: white;
+}
+
+body.dark-mode .sidebar {
+    background: #111827;
+}
+
+body.dark-mode a {
+    color: #e2e8f0;
+}
+
+body.dark-mode input {
+    background: #1e293b;
+    color: white;
+    border: 1px solid #334155;
 }
 
 </style>
@@ -169,14 +220,23 @@
 <script>
 
 /* MOBILE MENU */
-function toggleMenu() {
-    let menu = document.getElementById("navMenu");
-    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-}
-
-/* DARK MODE */
 function toggleDarkMode() {
     document.body.classList.toggle("dark-mode");
 }
+function toggleMenu() {
+    document.getElementById("navMenu").classList.toggle("active");
+}
+
+document.addEventListener("click", function(e) {
+    const menu = document.getElementById("navMenu");
+    const hamburger = document.querySelector(".hamburger");
+
+    if (
+        !menu.contains(e.target) &&
+        !hamburger.contains(e.target)
+    ) {
+        menu.classList.remove("active");
+    }
+});
 
 </script>
