@@ -26,7 +26,11 @@ SECRET_KEY = 'django-insecure-4&=&dk^-$nr(z#)$^6&2#8&xjn%lkxcb1jrevhvkco4es$wmav
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "study-bud-2.onrender.com",
+]
 
 
 LOGIN_URL = 'login'
