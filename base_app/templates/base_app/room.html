@@ -1,0 +1,25 @@
+{% extends 'base_app/main.html' %}
+
+{% block content %}
+
+<div style="max-width:800px; margin:auto; padding:20px; background:white; border-radius:10px;">
+
+    <h2>{{ room.name }}</h2>
+    <p>{{ room.description }}</p>
+
+    <hr>
+
+    <h3>💬 Messages</h3>
+
+    {% for message in room.message_set.all %}
+        <div style="margin-bottom:10px; padding:10px; background:#f3f4f6; border-radius:6px;">
+            <strong>@{{ message.user.username }}</strong>
+            <p>{{ message.body }}</p>
+        </div>
+    {% empty %}
+        <p>No messages yet</p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

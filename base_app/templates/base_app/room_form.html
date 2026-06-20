@@ -1,0 +1,31 @@
+{% extends 'base_app/main.html' %}
+{% block content %}
+
+<div class="form-container">
+    <h2>Create Study Room 🚀</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn-primary">Create Room</button>
+    </form>
+</div>
+
+<style>
+.form-container {
+    max-width: 600px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+}
+</style>
+
+{% endblock %}

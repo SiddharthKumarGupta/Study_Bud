@@ -1,0 +1,36 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/static/images/favicon.png">
+    <title>StudyBud</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .container {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    {% include 'base_app/navbar.html' %}
+
+    <!-- Content Block -->
+    <div class="container">
+        {% block content %}
+        <!-- Child templates will inject content here -->
+        <h1>main block</h1>
+        {% endblock %}
+    </div>
+
+</body>
+</html>

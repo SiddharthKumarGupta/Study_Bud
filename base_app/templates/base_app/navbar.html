@@ -1,0 +1,182 @@
+<!-- navbar.html -->
+
+<nav class="navbar">
+    <div class="nav-container">
+
+        <!-- LEFT -->
+        <div class="left">
+            <span class="hamburger" onclick="toggleMenu()">☰</span>
+            <a href="/" class="logo">StudyBud 🚀</a>
+        </div>
+
+        <!-- CENTER (Search) -->
+        <div class="search-box">
+        <form action="{% url 'home' %}" method="GET" class="search-box">
+             <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search rooms..." />
+          <button type="submit">Search</button>
+        </form>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right" id="navMenu">
+
+            <a href="/">Home</a>
+            <a href="/topics/">Topics</a>
+            <a href="/rooms/">Rooms</a>
+
+            <!-- Notification -->
+            <span class="bell">🔔</span>
+
+            <!-- Dark Mode -->
+            <button onclick="toggleDarkMode()" class="dark-btn">🌙</button>
+
+            {% if request.user.is_authenticated %}
+                <span class="user">Hi, {{ request.user.username }}</span>
+                <a href="{% url 'profile' %}">Profile</a>
+                <a href="{% url 'logout' %}" class="logout">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'register' %}" class="signup">Signup</a>
+            {% endif %}
+        </div>
+
+    </div>
+</nav>
+
+<style>
+
+/* NAVBAR */
+.navbar {
+    background: #111827;
+    padding: 12px 20px;
+    color: white;
+}
+
+/* FLEX */
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEFT */
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.logo {
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+}
+
+/* SEARCH */
+.search-box input {
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+}
+
+/* RIGHT */
+.right a {
+    margin-left: 15px;
+    color: #d1d5db;
+    text-decoration: none;
+}
+
+.right a:hover {
+    color: #60a5fa;
+}
+
+/* BUTTONS */
+.signup {
+    background: #4f46e5;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white !important;
+}
+
+.logout {
+    color: #f87171 !important;
+}
+
+/* ICONS */
+.bell {
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.dark-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: white;
+}
+
+/* USER */
+.user {
+    margin-left: 10px;
+    color: #9ca3af;
+}
+
+/* HAMBURGER */
+.hamburger {
+    display: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .search-box {
+        display: none;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .right {
+        display: none;
+        flex-direction: column;
+        background: #1f2937;
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        padding: 15px;
+        border-radius: 10px;
+    }
+
+    .right a {
+        display: block;
+        margin: 10px 0;
+    }
+}
+
+/* DARK MODE */
+.dark-mode {
+    background: #0f172a !important;
+    color: white;
+}
+
+</style>
+
+<script>
+
+/* MOBILE MENU */
+function toggleMenu() {
+    let menu = document.getElementById("navMenu");
+    menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+}
+
+/* DARK MODE */
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+}
+
+</script>

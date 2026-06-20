@@ -1,0 +1,36 @@
+<div class="sidebar">
+    <h3>Browse Topics 📚</h3>
+
+    <!-- All Topics -->
+    <a href="{% url 'home' %}"
+       class="{% if not request.GET.q %}active-topic{% endif %}">
+        All Topics ({{ room_count }})
+    </a>
+
+    <!-- Dynamic Topics -->
+    {% for topic in topics %}
+        <a href="{% url 'home' %}?q={{ topic.name }}"
+           class="{% if request.GET.q == topic.name %}active-topic{% endif %}">
+            {{ topic.name }} ({{ topic.room_set.count }})
+        </a>
+    {% endfor %}
+</div>
+
+<style>
+.sidebar a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+.sidebar a:hover {
+    background: #f0f0f0;
+}
+.active-topic {
+    background: #4f46e5;
+    color: white !important;
+    font-weight: bold;
+}
+</style>

@@ -1,0 +1,119 @@
+{% extends 'base_app/main.html' %}
+{% block content %}
+
+<style>
+.topics-container {
+    max-width: 800px;
+    margin: auto;
+}
+
+/* Header */
+.topics-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.topics-header h2 {
+    margin: 0;
+}
+
+/* Search box */
+.search-box {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.search-box input {
+    width: 60%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+/* Topic list */
+.topic-card {
+    background: white;
+    padding: 15px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.topic-card:hover {
+    transform: translateY(-3px);
+}
+
+.topic-card a {
+    text-decoration: none;
+    color: #1f2937;
+    font-weight: bold;
+}
+
+.topic-card small {
+    display: block;
+    color: #6b7280;
+}
+</style>
+
+
+<div class="sidebar">
+    <h3>Browse Topics 📚</h3>
+
+    <!-- All Topics -->
+    <a href="{% url 'home' %}"
+       class="{% if not request.GET.q %}active-topic{% endif %}">
+        All Topics ({{ room_count }})
+    </a>
+
+    <!-- Dynamic Topics -->
+    {% for topic in topics %}
+        <a href="{% url 'home' %}?q={{ topic.name }}"
+           class="{% if request.GET.q == topic.name %}active-topic{% endif %}">
+            {{ topic.name }} ({{ topic.room_set.count }})
+        </a>
+    {% endfor %}
+</div>
+
+<div class="topics-container">
+
+    <!-- Header -->
+    <div class="topics-header">
+        <h2>Browse Topics 📚</h2>
+        <p>Find topics and join discussions</p>
+    </div>
+
+    <!-- Search -->
+    <div class="search-box">
+        <input type="text" placeholder="Search topics...">
+    </div>
+
+    <!-- Topics List -->
+    <div class="topic-card">
+        <a href="#">Python 🐍</a>
+        <small>120 rooms available</small>
+    </div>
+
+    <div class="topic-card">
+        <a href="#">JavaScript ⚡</a>
+        <small>98 rooms available</small>
+    </div>
+
+    <div class="topic-card">
+        <a href="#">React ⚛️</a>
+        <small>75 rooms available</small>
+    </div>
+
+    <div class="topic-card">
+        <a href="#">Django 🌐</a>
+        <small>60 rooms available</small>
+    </div>
+
+    <div class="topic-card">
+        <a href="#">Machine Learning 🤖</a>
+        <small>45 rooms available</small>
+    </div>
+
+</div>
+
+{% endblock %}

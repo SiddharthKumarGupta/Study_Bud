@@ -1,0 +1,317 @@
+{% extends 'base_app/main.html' %}
+{% block content %}
+
+<style>
+/* ===== MAIN LAYOUT ===== */
+.rooms-container{
+    display:grid;
+    grid-template-columns:300px 1fr;
+    gap:25px;
+    padding:25px;
+    min-height:90vh;
+    background:linear-gradient(to right,#0f172a,#111827);
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar{
+    background:rgba(17,24,39,0.95);
+    backdrop-filter:blur(10px);
+    padding:25px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,0.08);
+    box-shadow:0 10px 30px rgba(0,0,0,0.35);
+    height:fit-content;
+}
+
+.sidebar h3{
+    color:white;
+    margin-bottom:20px;
+    font-size:26px;
+    font-weight:700;
+}
+
+.topic-link{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:12px 15px;
+    margin-bottom:12px;
+    border-radius:12px;
+    text-decoration:none;
+    color:#d1d5db;
+    transition:0.3s;
+    background:rgba(255,255,255,0.03);
+}
+
+.topic-link:hover{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    transform:translateX(5px);
+    color:white;
+}
+
+.active-topic{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    font-weight:bold;
+    box-shadow:0 5px 15px rgba(124,58,237,0.4);
+}
+
+/* ===== ROOMS SECTION ===== */
+.rooms-section{
+    width:100%;
+}
+
+/* ===== HEADER ===== */
+.rooms-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:30px;
+}
+
+.rooms-header h2{
+    color:white;
+    font-size:40px;
+    font-weight:800;
+    letter-spacing:1px;
+}
+
+.create-btn{
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    color:white;
+    padding:12px 22px;
+    border-radius:14px;
+    text-decoration:none;
+    font-weight:600;
+    transition:0.3s;
+    box-shadow:0 8px 20px rgba(37,99,235,0.4);
+}
+
+.create-btn:hover{
+    transform:translateY(-3px) scale(1.03);
+    box-shadow:0 12px 25px rgba(124,58,237,0.5);
+}
+
+/* ===== ROOM CARD ===== */
+.room-card{
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:22px;
+    padding:25px;
+    margin-bottom:25px;
+    transition:0.35s;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    overflow:hidden;
+    position:relative;
+}
+
+.room-card::before{
+    content:'';
+    position:absolute;
+    width:200px;
+    height:200px;
+    background:rgba(124,58,237,0.15);
+    border-radius:50%;
+    top:-80px;
+    right:-60px;
+}
+
+.room-card:hover{
+    transform:translateY(-6px);
+    box-shadow:0 18px 40px rgba(0,0,0,0.4);
+}
+
+/* ===== ROOM TOP ===== */
+.room-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.host-info{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.avatar{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#2563eb,#7c3aed);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    font-weight:bold;
+    font-size:18px;
+    box-shadow:0 5px 15px rgba(124,58,237,0.4);
+}
+
+.host-name{
+    color:white;
+    font-weight:700;
+    font-size:18px;
+}
+
+.topic-badge{
+    background:rgba(255,255,255,0.1);
+    color:#cbd5e1;
+    padding:7px 14px;
+    border-radius:50px;
+    font-size:14px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+/* ===== ROOM CONTENT ===== */
+.room-title a{
+    text-decoration:none;
+    color:white;
+    font-size:28px;
+    font-weight:700;
+    transition:0.3s;
+}
+
+.room-title a:hover{
+    color:#60a5fa;
+}
+
+.room-desc{
+    margin-top:15px;
+    color:#d1d5db;
+    line-height:1.7;
+    font-size:16px;
+}
+
+/* ===== EMPTY ===== */
+.empty-msg{
+    color:#d1d5db;
+    font-size:18px;
+    text-align:center;
+    margin-top:50px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:900px){
+
+    .rooms-container{
+        grid-template-columns:1fr;
+    }
+
+    .rooms-header{
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+    }
+
+    .rooms-header h2{
+        font-size:32px;
+    }
+}
+</style>
+
+<div class="rooms-container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+        <h3>🔥 Browse Topics</h3>
+
+        <a href="{% url 'rooms' %}"
+           class="topic-link {% if not request.GET.q %}active-topic{% endif %}">
+            <span>All Topics</span>
+            <span>{{ rooms.count }}</span>
+        </a>
+
+        {% for topic in topics %}
+            <a href="{% url 'rooms' %}?q={{ topic.name }}"
+               class="topic-link {% if request.GET.q == topic.name %}active-topic{% endif %}">
+                <span>{{ topic.name }}</span>
+                <span>{{ topic.room_set.count }}</span>
+            </a>
+        {% endfor %}
+
+    </div>
+
+    <!-- ROOMS -->
+    <div class="rooms-section">
+
+        <!-- HEADER -->
+        <div class="rooms-header">
+
+            <h2>🚀 Study Rooms</h2>
+
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'create-room' %}" class="create-btn">
+                    + Create Room
+                </a>
+            {% else %}
+                <a href="{% url 'login' %}" class="create-btn">
+                    Login First
+                </a>
+            {% endif %}
+
+        </div>
+
+        <!-- ROOMS LIST -->
+        {% if rooms %}
+
+            {% for room in rooms %}
+
+            <div class="room-card">
+
+                <div class="room-top">
+
+                    <div class="host-info">
+
+                        <div class="avatar">
+                            {{ room.host.username|slice:":1"|upper }}
+                        </div>
+
+                        <div>
+                            <div class="host-name">
+                                {{ room.host.username }}
+                            </div>
+
+                            <small style="color:#94a3b8;">
+                                Room Host
+                            </small>
+                        </div>
+
+                    </div>
+
+                    <div class="topic-badge">
+                        # {{ room.topic.name }}
+                    </div>
+
+                </div>
+
+                <div class="room-title">
+                    <a href="{% url 'room' room.id %}">
+                        {{ room.name }}
+                    </a>
+                </div>
+
+                <div class="room-desc">
+                    {{ room.description|truncatechars:180 }}
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="empty-msg">
+                😔 No rooms found for this topic.
+            </p>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+{% endblock %}

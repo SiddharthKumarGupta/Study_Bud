@@ -1,0 +1,337 @@
+{% extends 'base_app/main.html' %}
+{% include 'base_app/topics_component.html' %}
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero">
+    <h1>Connect. Learn. Grow. 🚀</h1>
+    <p>Join study rooms and collaborate with learners worldwide.</p>
+    <a href="{% url 'create-room' %}" class="cta-btn">Start a Room</a>
+    
+</div>
+
+<style>
+
+    
+.hero {
+    text-align: center;
+    padding: 40px 20px;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #4f46e5, #9333ea);
+    color: white;
+    border-radius: 12px;
+}
+.hero h1 {
+    font-size: 42px;
+    margin-bottom: 10px;
+}
+.hero p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+.cta-btn {
+    background: white;
+    color: #4f46e5;
+    padding: 12px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+.cta-btn:hover {
+    background: #f3f4f6;
+}
+
+body {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    font-family: 'Segoe UI', sans-serif;
+    color: white;
+}
+
+/* HERO */
+
+.layout {
+    display: flex;
+    gap: 30px;
+    padding: 20px;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 220px;
+    background: #111827;
+    padding: 20px;
+    border-radius: 12px;
+    color: white;
+}
+
+.sidebar h3 {
+    margin-bottom: 15px;
+}
+
+.sidebar a {
+    display: block;
+    color: #9ca3af;
+    padding: 8px;
+    margin-bottom: 5px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.3s;
+}
+
+/* HOVER */
+.sidebar a:hover {
+    background: #1f2937;
+    color: white;
+}
+
+/* ACTIVE */
+.sidebar a.active {
+    background: #4f46e5;
+    color: white;
+    font-weight: bold;
+}
+
+/* ROOM AREA */
+.room-list {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+/* CARD */
+.room-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+}  
+
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 50px;
+    font-weight: bold;
+    background: linear-gradient(to right, #fff, #c7d2fe);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+    margin-top: 10px;
+    font-size: 18px;
+    opacity: 0.9;
+}
+
+/* BUTTON */
+.hero a {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 12px 25px;
+    border-radius: 25px;
+    background: white;
+    color: #4f46e5;
+    font-weight: bold;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.hero a:hover {
+    background: #e0e7ff;
+}
+
+/* GRID */
+.room-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 40px;
+}
+
+/* CARD */
+.room-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border-radius: 15px;
+    padding: 25px;
+    transition: 0.4s;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+.room-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 12px 25px rgba(0,0,0,0.3);
+}
+
+/* CARD TEXT */
+.room-card h3 {
+    margin-bottom: 10px;
+    font-size: 22px;
+}
+
+.room-card p {
+    opacity: 0.8;
+}
+
+/* FOOTER */
+.footer {
+    background: #0f172a;
+    color: #e5e7eb;
+    padding: 40px 20px 20px;
+    margin-top: 50px;
+}
+
+.footer-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 30px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+.footer h2 {
+    color: #ffffff;
+}
+
+.footer h4 {
+    margin-bottom: 10px;
+    color: #c7d2fe;
+}
+
+.footer p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.footer a {
+    display: block;
+    color: #9ca3af;
+    text-decoration: none;
+    margin-bottom: 6px;
+    transition: 0.3s;
+}
+
+.footer a:hover {
+    color: #6366f1;
+    transform: translateX(5px);
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 30px;
+    border-top: 1px solid #1f2937;
+    padding-top: 15px;
+    font-size: 13px;
+    opacity: 0.7;
+}
+</style>
+
+
+<div class="layout">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <h3>📚 Topics</h3>
+
+        <a href="{% url 'home' %}" class="{% if q == '' %}active{% endif %}">
+            All Topics
+        </a>
+
+
+        {% for topic in topics %}
+<a href="{% url 'home' %}?q={{ topic.name }}"
+   class="{% if q == topic.name %}active{% endif %}">
+   {{ topic.name }} ({{ topic.room_count }})
+</a>
+        {% endfor %}
+    </div>
+
+    <!-- ROOMS -->
+    {% for room in rooms %}
+    <div class="room-card">
+        <h3>
+            <a href="{% url 'room' room.id %}" style="text-decoration:none; color:inherit;">
+                {{ room.name }}
+            </a>
+            <a href="{% url 'rooms' %}" class="cta-btn" style="margin-left:10px;">
+    Browse Rooms
+</a>
+        </h3>
+        <p>{{ room.description }}</p>
+        <small>Topic: {{ room.topic.name }}</small>
+    </div>
+{% empty %}
+    <p>No rooms found 😢</p>
+{% endfor %}
+
+</div>
+
+
+
+<!-- ROOMS -->
+<div class="room-list">
+
+    
+
+    <div class="room-card">
+        <h3>🐍 Python Mastery</h3>
+        <p>From basics to advanced — become Python pro</p>
+    </div>
+
+    <div class="room-card">
+        <h3>🌐 Web Dev Hub</h3>
+        <p>Frontend + Backend full roadmap discussion</p>
+    </div>
+
+    <div class="room-card">
+        <h3>💻 DSA Warriors</h3>
+        <p>Crack coding interviews with daily practice</p>
+    </div>
+
+    <div class="room-card">
+        <h3>🤖 AI & ML</h3>
+        <p>Dive into future tech & build smart systems</p>
+    </div>
+    
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="footer-container">
+
+        <!-- Logo / Brand -->
+        <div class="footer-brand">
+            <h2>StudyBud 🚀</h2>
+            <p>Connect. Learn. Grow.</p>
+        </div>
+
+        <!-- Links -->
+        <div class="footer-links">
+            <h4>Explore</h4>
+            <a href="/">Home</a>
+            <a href="/rooms/">Rooms</a>
+            <a href="/topics/">Topics</a>
+            <a href="/login/">Login</a>
+        </div>
+
+        <!-- Social -->
+        <div class="footer-social">
+            <h4>Follow Us</h4>
+            <a href="#">🌐 Website</a>
+            <a href="#">🐦 Twitter</a>
+            <a href="#">💼 LinkedIn</a>
+            <a href="#">📸 Instagram</a>
+        </div>
+
+    </div>
+
+    <!-- Bottom -->
+    <div class="footer-bottom">
+        <p>© 2026 StudyBud. Built with ❤️ using Django</p>
+    </div>
+</footer>
+
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends 'base_app/main.html' %}
+
+{% block content %}
+
+<style>
+body {
+    background: #0f0f0f;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+/* GRID BACKGROUND */
+.bg-grid {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        linear-gradient(#ff000033 1px, transparent 1px),
+        linear-gradient(90deg, #ff000033 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+}
+
+/* CARD */
+.login-container {
+    width: 350px;
+    margin: 80px auto;
+    padding: 30px;
+    background: #1a1a1a;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(255,0,0,0.2);
+    text-align: center;
+}
+
+/* TITLE */
+.login-container h2 {
+    color: red;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+/* INPUT */
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background: #2a2a2a;
+    color: white;
+    outline: none;
+}
+
+/* BUTTON */
+.login-btn {
+    width: 100%;
+    padding: 10px;
+    background: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login-btn:hover {
+    background: #cc0000;
+}
+
+/* LINKS */
+.extra {
+    margin-top: 15px;
+    color: #aaa;
+}
+
+.extra a {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.extra a:hover {
+    text-decoration: underline;
+}
+</style>
+
+<div class="bg-grid"></div>
+
+<div class="login-container">
+    <h2>SIGN IN</h2>
+
+    <form id="loginForm">
+
+        <div class="form-group">
+            <input type="text" id="username" placeholder="Username" required>
+        </div>
+
+        <div class="form-group">
+            <input type="password" id="password" placeholder="Password" required>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+    </form>
+
+    <div class="extra">
+        <p>Don’t have an account? <a href="/register/">Signup</a></p>
+    </div>
+</div>
+
+<!-- 🔥 CONNECT TO API -->
+<script>
+document.getElementById('loginForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('/api/login/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                password: password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // 🔐 Save tokens
+            localStorage.setItem('access', data.access);
+            localStorage.setItem('refresh', data.refresh);
+
+            alert("✅ Login successful!");
+            window.location.href = "/";   // redirect home
+        } else {
+            alert("❌ " + (data.error || "Invalid credentials"));
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Something went wrong!");
+    }
+});
+</script>
+
+{% endblock %}
