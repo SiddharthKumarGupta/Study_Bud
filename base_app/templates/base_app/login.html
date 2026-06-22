@@ -87,31 +87,46 @@ body {
     text-decoration: underline;
 }
 </style>
-
 <div class="bg-grid"></div>
 
 <div class="login-container">
     <h2>SIGN IN</h2>
 
-    <form id="loginForm">
+    <form method="POST">
+        {% csrf_token %}
 
         <div class="form-group">
-            <input type="text" id="username" placeholder="Username" required>
+            <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                required
+            >
         </div>
 
         <div class="form-group">
-            <input type="password" id="password" placeholder="Password" required>
+            <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+            >
         </div>
 
-        <button type="submit" class="login-btn">Login</button>
+        <button type="submit" class="login-btn">
+            Login
+        </button>
     </form>
 
     <div class="extra">
-        <p>Don’t have an account? <a href="/register/">Signup</a></p>
+        <p>Don't have an account?
+            <a href="/register/">Signup</a>
+        </p>
     </div>
 </div>
 
 <!-- 🔥 CONNECT TO API -->
+
 <script>
 document.getElementById('loginForm').addEventListener('submit', async function(e) {
     e.preventDefault();
@@ -134,12 +149,11 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
 
         if (response.ok) {
-            // 🔐 Save tokens
             localStorage.setItem('access', data.access);
             localStorage.setItem('refresh', data.refresh);
 
             alert("✅ Login successful!");
-            window.location.href = "/";   // redirect home
+            window.location.href = "/";
         } else {
             alert("❌ " + (data.error || "Invalid credentials"));
         }
@@ -150,5 +164,6 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
     }
 });
 </script>
+
 
 {% endblock %}

@@ -1,6 +1,225 @@
-<form method="POST">
-    {% csrf_token %}
-    <input type="text" name="username" value="{{ user.username }}">
-    <input type="email" name="email" value="{{ user.email }}">
-    <button type="submit">Update</button>
-</form>
+{% extends 'base_app/main.html' %}
+
+{% block content %}
+
+<div class="update-page">
+
+    <div class="update-card">
+
+        <div class="update-header">
+
+            <div class="avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <h2>Update Profile</h2>
+
+            <p>Edit your account information below.</p>
+
+        </div>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+
+                <label>Username</label>
+
+                <input
+                    type="text"
+                    name="username"
+                    value="{{ user.username }}"
+                    required
+                >
+
+            </div>
+
+            <div class="form-group">
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ user.email }}"
+                >
+
+            </div>
+
+            <div class="button-group">
+
+                <button type="submit" class="save-btn">
+                    💾 Save Changes
+                </button>
+
+                <a href="{% url 'profile' %}" class="cancel-btn">
+                    Cancel
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<style>
+
+body{
+    background:#f5f7fb;
+}
+
+/* Page */
+
+.update-page{
+    min-height:85vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:40px 20px;
+}
+
+/* Card */
+
+.update-card{
+    width:100%;
+    max-width:500px;
+    background:#fff;
+    border-radius:20px;
+    padding:40px;
+    box-shadow:0 15px 40px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.update-card:hover{
+    transform:translateY(-4px);
+}
+
+/* Header */
+
+.update-header{
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.avatar{
+    width:90px;
+    height:90px;
+    margin:auto;
+    border-radius:50%;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed);
+    color:#fff;
+    font-size:36px;
+    font-weight:bold;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:15px;
+}
+
+.update-header h2{
+    margin:10px 0;
+    color:#222;
+}
+
+.update-header p{
+    color:#777;
+    font-size:15px;
+}
+
+/* Form */
+
+.form-group{
+    margin-bottom:22px;
+}
+
+.form-group label{
+    display:block;
+    margin-bottom:8px;
+    font-weight:600;
+    color:#333;
+}
+
+.form-group input{
+    width:100%;
+    padding:14px;
+    border:1px solid #ddd;
+    border-radius:12px;
+    font-size:15px;
+    transition:.3s;
+    box-sizing:border-box;
+}
+
+.form-group input:focus{
+    outline:none;
+    border-color:#4f46e5;
+    box-shadow:0 0 10px rgba(79,70,229,.2);
+}
+
+/* Buttons */
+
+.button-group{
+    display:flex;
+    gap:15px;
+    margin-top:25px;
+}
+
+.save-btn{
+    flex:1;
+    border:none;
+    background:#4f46e5;
+    color:white;
+    padding:14px;
+    border-radius:12px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.save-btn:hover{
+    background:#4338ca;
+}
+
+.cancel-btn{
+    flex:1;
+    text-align:center;
+    text-decoration:none;
+    background:#ececec;
+    color:#333;
+    padding:14px;
+    border-radius:12px;
+    font-weight:600;
+    transition:.3s;
+}
+
+.cancel-btn:hover{
+    background:#d9d9d9;
+}
+
+/* Mobile */
+
+@media(max-width:600px){
+
+.update-card{
+    padding:25px;
+}
+
+.avatar{
+    width:70px;
+    height:70px;
+    font-size:28px;
+}
+
+.button-group{
+    flex-direction:column;
+}
+
+}
+
+</style>
+
+{% endblock %}

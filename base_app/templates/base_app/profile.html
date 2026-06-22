@@ -1,3 +1,223 @@
-<h2>User Profile</h2>
-<p>Username: {{ user.username }}</p>
-<p>Email: {{ user.email }}</p>
+{% extends 'base_app/main.html' %}
+
+{% block content %}
+
+<div class="profile-container">
+
+    <div class="profile-card">
+
+        <div class="profile-header">
+
+            <div class="avatar">
+                {{ user.username|first|upper }}
+            </div>
+
+            <div>
+                <h1>{{ user.username }}</h1>
+                <p>StudyBud Member 🚀</p>
+            </div>
+
+        </div>
+
+        <div class="profile-info">
+
+            <div class="info-box">
+                <h3>👤 Username</h3>
+                <p>{{ user.username }}</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📧 Email</h3>
+                <p>{{ user.email }}</p>
+            </div>
+
+            <div class="info-box">
+                <h3>📅 Joined</h3>
+                <p>{{ user.date_joined|date:"F d, Y" }}</p>
+            </div>
+
+        </div>
+
+        <div class="profile-actions">
+
+            <a href="{% url 'update-user' %}" class="btn-primary">
+                ✏ Edit Profile
+            </a>
+
+            <a href="{% url 'home' %}" class="btn-secondary">
+                🏠 Back Home
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+    body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    font-family:'Segoe UI',sans-serif;
+}
+
+.profile-container{
+    max-width:900px;
+    margin:50px auto;
+    padding:20px;
+}
+
+.profile-card{
+
+    background:white;
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 40px rgba(0,0,0,.15);
+
+}
+
+.profile-header{
+
+    background:linear-gradient(135deg,#4f46e5,#9333ea);
+    color:white;
+    padding:40px;
+
+    display:flex;
+    align-items:center;
+    gap:25px;
+
+}
+
+.avatar{
+
+    width:90px;
+    height:90px;
+
+    border-radius:50%;
+
+    background:white;
+    color:#4f46e5;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:40px;
+    font-weight:bold;
+
+}
+
+.profile-header h1{
+
+    margin-bottom:8px;
+    font-size:34px;
+
+}
+
+.profile-header p{
+
+    opacity:.9;
+    font-size:17px;
+
+}
+
+.profile-info{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+    padding:35px;
+
+}
+
+.info-box{
+
+    background:#f8fafc;
+    border-left:5px solid #4f46e5;
+    border-radius:12px;
+    padding:20px;
+
+}
+
+.info-box h3{
+
+    color:#4f46e5;
+    margin-bottom:10px;
+
+}
+
+.info-box p{
+
+    color:#333;
+    font-size:17px;
+
+}
+
+.profile-actions{
+
+    padding:0 35px 35px;
+    display:flex;
+    gap:20px;
+
+}
+
+.btn-primary{
+
+    background:#4f46e5;
+    color:white;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:30px;
+    font-weight:bold;
+
+}
+
+.btn-primary:hover{
+
+    background:#4338ca;
+
+}
+
+.btn-secondary{
+
+    background:#eef2ff;
+    color:#4f46e5;
+    text-decoration:none;
+    padding:14px 30px;
+    border-radius:30px;
+    font-weight:bold;
+
+}
+
+.btn-secondary:hover{
+
+    background:#dbeafe;
+
+}
+
+@media(max-width:768px){
+
+.profile-header{
+
+    flex-direction:column;
+    text-align:center;
+
+}
+
+.profile-actions{
+
+    flex-direction:column;
+
+}
+
+.btn-primary,
+.btn-secondary{
+
+    text-align:center;
+
+}
+
+}
+</style>
+
+{% endblock %}
