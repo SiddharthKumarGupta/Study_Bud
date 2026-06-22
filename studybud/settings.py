@@ -24,12 +24,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-4&=&dk^-$nr(z#)$^6&2#8&xjn%lkxcb1jrevhvkco4es$wmav'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
 
 ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
+    ".onrender.com",
     "study-bud-2.onrender.com",
+    "localhost",
+    "127.0.0.1",
 ]
 
 
@@ -54,7 +55,11 @@ DEBUG = False
 
 CSRF_TRUSTED_ORIGINS = [
     "https://study-bud-2.onrender.com",
+    "https://*.onrender.com",
 ]
+
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
