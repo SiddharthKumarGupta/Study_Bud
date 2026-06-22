@@ -2,116 +2,214 @@
 {% block content %}
 
 <style>
-.topics-container {
-    max-width: 800px;
-    margin: auto;
+body{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    font-family:'Segoe UI',sans-serif;
 }
 
-/* Header */
-.topics-header {
-    text-align: center;
-    margin-bottom: 20px;
+.topics-page{
+
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+
 }
 
-.topics-header h2 {
-    margin: 0;
+.topics-header{
+
+    text-align:center;
+    margin-bottom:40px;
+
 }
 
-/* Search box */
-.search-box {
-    margin: 20px 0;
-    text-align: center;
+.topics-header h1{
+
+    color:white;
+    font-size:42px;
+    margin-bottom:10px;
+
 }
 
-.search-box input {
-    width: 60%;
-    padding: 10px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
+.topics-header p{
+
+    color:#ddd;
+    margin-bottom:25px;
+
 }
 
-/* Topic list */
-.topic-card {
-    background: white;
-    padding: 15px;
-    margin-bottom: 12px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: 0.3s;
+.topics-header input{
+
+    width:100%;
+    max-width:500px;
+    padding:15px;
+    border:none;
+    border-radius:30px;
+    outline:none;
+    font-size:16px;
+
 }
 
-.topic-card:hover {
-    transform: translateY(-3px);
+.topics-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:25px;
+
 }
 
-.topic-card a {
-    text-decoration: none;
-    color: #1f2937;
-    font-weight: bold;
+.topic-card{
+
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(10px);
+
+    border-radius:18px;
+
+    padding:25px;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    text-decoration:none;
+
+    color:white;
+
+    transition:.35s;
+
+    box-shadow:0 15px 30px rgba(0,0,0,.15);
+
 }
 
-.topic-card small {
-    display: block;
-    color: #6b7280;
+.topic-card:hover{
+
+    transform:translateY(-8px);
+
+    background:rgba(255,255,255,.22);
+
+}
+
+.topic-left h2{
+
+    margin-bottom:8px;
+
+}
+
+.topic-left small{
+
+    color:#ddd;
+
+}
+
+.topic-right{
+
+    width:45px;
+    height:45px;
+
+    border-radius:50%;
+
+    background:white;
+
+    color:#4f46e5;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:22px;
+    font-weight:bold;
+
+}
+
+.no-topic{
+
+    text-align:center;
+    color:white;
+    font-size:20px;
+
+}
+
+/* Tablet */
+
+@media(max-width:992px){
+
+.topics-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+}
+
+/* Mobile */
+
+@media(max-width:768px){
+
+.topics-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.topics-header h1{
+
+font-size:32px;
+
+}
+
+.topic-card{
+
+padding:20px;
+
+}
+
 }
 </style>
 
 
-<div class="sidebar">
-    <h3>Browse Topics 📚</h3>
+<div class="topics-page">
 
-    <!-- All Topics -->
-    <a href="{% url 'home' %}"
-       class="{% if not request.GET.q %}active-topic{% endif %}">
-        All Topics ({{ room_count }})
-    </a>
-
-    <!-- Dynamic Topics -->
-    {% for topic in topics %}
-        <a href="{% url 'home' %}?q={{ topic.name }}"
-           class="{% if request.GET.q == topic.name %}active-topic{% endif %}">
-            {{ topic.name }} ({{ topic.room_set.count }})
-        </a>
-    {% endfor %}
-</div>
-
-<div class="topics-container">
-
-    <!-- Header -->
     <div class="topics-header">
-        <h2>Browse Topics 📚</h2>
-        <p>Find topics and join discussions</p>
+        <h1>📚 Browse Topics</h1>
+        <p>Choose a topic and discover discussion rooms.</p>
+
+        <form method="GET">
+            <input
+                type="text"
+                name="q"
+                placeholder="Search topics..."
+                value="{{ q }}"
+            >
+        </form>
     </div>
 
-    <!-- Search -->
-    <div class="search-box">
-        <input type="text" placeholder="Search topics...">
-    </div>
+    <div class="topics-grid">
 
-    <!-- Topics List -->
-    <div class="topic-card">
-        <a href="#">Python 🐍</a>
-        <small>120 rooms available</small>
-    </div>
+        {% for topic in topics %}
 
-    <div class="topic-card">
-        <a href="#">JavaScript ⚡</a>
-        <small>98 rooms available</small>
-    </div>
+        <a href="{% url 'home' %}?q={{ topic.name }}" class="topic-card">
 
-    <div class="topic-card">
-        <a href="#">React ⚛️</a>
-        <small>75 rooms available</small>
-    </div>
+            <div class="topic-left">
+                <h2>{{ topic.name }}</h2>
 
-    <div class="topic-card">
-        <a href="#">Django 🌐</a>
-        <small>60 rooms available</small>
-    </div>
+                <small>
+                    {{ topic.room_count }} Room{{ topic.room_count|pluralize }}
+                </small>
+            </div>
 
-    <div class="topic-card">
-        <a href="#">Machine Learning 🤖</a>
-        <small>45 rooms available</small>
+            <div class="topic-right">
+                →
+            </div>
+
+        </a>
+
+        {% empty %}
+
+        <div class="no-topic">
+            No Topics Found 😢
+        </div>
+
+        {% endfor %}
+
     </div>
 
 </div>

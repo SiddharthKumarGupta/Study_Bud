@@ -27,6 +27,8 @@ def home(request):
     }
     return render(request, 'base_app/home.html', context)
 
+
+
 # Create your room views here.
 
 
@@ -169,3 +171,46 @@ def loginPage(request):
             messages.error(request, "Invalid username or password")
 
     return render(request, 'base_app/login.html')
+
+def room(request, pk):
+
+    room = Room.objects.get(id=pk)
+
+    room_messages = room.message_set.all().order_by("-created")
+
+    participants = room.participants.all()
+
+    if request.method == "POST":
+
+        Message.objects.create(
+            user=request.user,
+            room=room,
+            body=request.POST.get("body")
+        )
+
+        room.participants.add(request.user)
+
+        return redirect("room", pk=room.id)
+
+    context = {
+        "room": room,
+        "room_messages": room_messages,
+        "participants": participants,
+    }
+
+    return render(request, "base_app/room.html", context)
+
+from django.db.models import Count
+
+def topics(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    topics = Topic.objects.filter(
+        name__icontains=q
+    ).annotate(room_count=Count('room'))
+
+    context = {
+        'topics': topics,
+        'q': q,
+    }
+    return render(request, 'base_app/topics.html', context)

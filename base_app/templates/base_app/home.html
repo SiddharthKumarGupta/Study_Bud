@@ -128,6 +128,22 @@ body {
     }
 }
 
+.slider-controls{
+    display:flex;
+    justify-content:flex-end;
+    gap:10px;
+    margin:20px;
+}
+
+.slider-controls button{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:10px 15px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
 /* HOVER */
 .sidebar a:hover {
     background: #1f2937;
@@ -219,6 +235,16 @@ body {
 .room-card p {
     opacity: 0.8;
 }
+.room-link{
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.room-link:hover{
+    text-decoration: none;
+    color: inherit;
+}
 
 /* FOOTER */
 .footer {
@@ -300,7 +326,7 @@ body {
 
     <!-- ROOMS -->
     {% for room in rooms %}
-<div class="room-card">
+  <div class="room-card">
 
     <h3>
         <a href="{% url 'room' room.id %}" class="room-title">
@@ -335,28 +361,34 @@ body {
 <!-- ROOMS card-->
 <div class="room-list">
 
-    
+    <a href="{% url 'home' %}?q=Python" class="room-link">
+        <div class="room-card">
+            <h3>🐍 Python Mastery</h3>
+            <p>From basics to advanced — become Python pro</p>
+        </div>
+    </a>
 
-    <div class="room-card">
-        <h3>🐍 Python Mastery</h3>
-        <p>From basics to advanced — become Python pro</p>
-    </div>
+    <a href="{% url 'home' %}?q=backend development" class="room-link">
+        <div class="room-card">
+            <h3>🌐 Web Dev Hub</h3>
+            <p>Frontend + Backend full roadmap discussion</p>
+        </div>
+    </a>
 
-    <div class="room-card">
-        <h3>🌐 Web Dev Hub</h3>
-        <p>Frontend + Backend full roadmap discussion</p>
-    </div>
+    <a href="{% url 'home' %}?q=DSA" class="room-link">
+        <div class="room-card">
+            <h3>💻 DSA Warriors</h3>
+            <p>Crack coding interviews with daily practice</p>
+        </div>
+    </a>
 
-    <div class="room-card">
-        <h3>💻 DSA Warriors</h3>
-        <p>Crack coding interviews with daily practice</p>
-    </div>
+    <a href="{% url 'home' %}?q=Machine Learning" class="room-link">
+        <div class="room-card">
+            <h3>🤖 AI & ML</h3>
+            <p>Dive into future tech & build smart systems</p>
+        </div>
+    </a>
 
-    <div class="room-card">
-        <h3>🤖 AI & ML</h3>
-        <p>Dive into future tech & build smart systems</p>
-    </div>
-    
 </div>
 
 <!-- FOOTER -->

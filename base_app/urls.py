@@ -22,4 +22,8 @@ urlpatterns = [
 
     # Topics
     path('topics/', views.topics, name='topics'),
+
+    path("room/<str:pk>/", views.room, name="room"),
+
+    path('topics/', views.topics, name='topics'),
 ]
