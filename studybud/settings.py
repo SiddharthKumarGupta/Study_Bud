@@ -48,6 +48,19 @@ INSTALLED_APPS = [
     'base_app',
 ]
 
+
+DEBUG = False
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://study-bud-2.onrender.com",
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
 # settings.py
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
